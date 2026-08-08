@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - لوحة التحكم</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
+        h2 { color: #2d4a60; margin-bottom: 20px; }
+        input[type="password"] { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; outline: none; text-align: center; }
+        button { width: 100%; padding: 12px; background-color: #2563eb; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #1d4ed8; }
+        .error { color: #dc2626; margin-bottom: 15px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>لوحة التحكم</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+            <input type="password" name="password" placeholder="أدخل كلمة المرور" required>
+            <button type="submit">دخول</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة صحة - الاستعلام عن الإجازات المرضية</title>
+    <style>
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f8fafc; color: #333; direction: rtl; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        /* الهيدر العلوي */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #ffffff; border-bottom: 1px solid #e2e8f0; }
+        
+        /* الشعار والتفاصيل المطابقة للصورة */
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-text { text-align: center; border-left: 1px solid #cbd5e1; padding-left: 12px; }
+        .logo-title { color: #2d4a60; font-size: 20px; font-weight: bold; line-height: 1.1; }
+        .logo-sub { color: #2d4a60; font-size: 14px; font-weight: 600; margin-top: 2px; }
+        .logo-svg { width: 50px; height: 40px; }
 
+        /* القائمة العلوية - الاستعلامات فقط */
+        .nav-links { display: flex; align-items: center; gap: 20px; list-style: none; }
+        .nav-links a { color: #2d4a60; text-decoration: none; font-size: 15px; font-weight: bold; border-bottom: 2px solid #2d4a60; padding-bottom: 4px; }
+
+        /* المحتوى الرئيسي */
+        .container { max-width: 650px; margin: 50px auto; padding: 0 20px; text-align: center; flex-grow: 1; }
+        .main-title { color: #2563eb; font-size: 36px; font-weight: bold; margin-bottom: 15px; }
+        .description { color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 35px; }
+
+        /* نماذج الإدخال */
+        .form-group { margin-bottom: 20px; text-align: right; }
+        .form-control { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; background-color: #ffffff; color: #334155; }
+        .form-control::placeholder { color: #94a3b8; text-align: right; }
+        .form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        /* الأزرار */
+        .buttons-group { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 25px; }
+        .btn-submit { background-color: #2563eb; color: white; border: none; padding: 10px 35px; font-size: 15px; border-radius: 6px; cursor: pointer; font-weight: bold; min-width: 140px; }
+        .btn-submit:hover { background-color: #1d4ed8; }
+        .btn-back { background-color: #1d4ed8; color: white; border: none; padding: 10px 25px; font-size: 14px; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; min-width: 160px; display: inline-block; }
+        .btn-back:hover { background-color: #1e40af; }
+
+        /* نتيجة الاستعلام */
+        .result-box { display: none; margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; background-color: #ffffff; text-align: right; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .result-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; font-size: 14px; }
+        .result-row:last-child { border-bottom: none; }
+        .label { color: #64748b; font-weight: bold; }
+        .val { color: #0f172a; font-weight: 600; }
+
+        /* الشريط السفلي */
+        .footer-bar { background-color: #2563eb; height: 50px; width: 100%; position: relative; margin-top: 40px; }
+        .accessibility-icon { position: absolute; right: 20px; top: -18px; background: #2563eb; border: 2px solid #ffffff; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر العلوي -->
+    <div class="navbar">
+        <div class="logo-container">
+            <!-- رسم الشعار بنفس خطوط الصح الأفقية -->
+            <svg class="logo-svg" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#719da8">
+                    <rect x="10" y="32" width="12" height="3" rx="1.5"/>
+                    <rect x="8" y="38" width="16" height="3" rx="1.5"/>
+                    <rect x="6" y="44" width="20" height="3" rx="1.5"/>
+                    <rect x="8" y="50" width="24" height="3" rx="1.5"/>
+                    <rect x="12" y="56" width="28" height="3" rx="1.5"/>
+                    <rect x="18" y="62" width="30" height="3" rx="1.5"/>
+                    <rect x="25" y="68" width="30" height="3" rx="1.5"/>
+                    <rect x="34" y="62" width="28" height="3" rx="1.5"/>
+                    <rect x="40" y="56" width="26" height="3" rx="1.5"/>
+                    <rect x="46" y="50" width="26" height="3" rx="1.5"/>
+                    <rect x="52" y="44" width="26" height="3" rx="1.5"/>
+                    <rect x="58" y="38" width="26" height="3" rx="1.5"/>
+                    <rect x="64" y="32" width="26" height="3" rx="1.5"/>
+                    <rect x="70" y="26" width="24" height="3" rx="1.5"/>
+                    <rect x="76" y="20" width="20" height="3" rx="1.5"/>
+                    <rect x="82" y="14" width="14" height="3" rx="1.5"/>
+                </g>
+            </svg>
+
+            <div class="logo-text">
+                <div class="logo-title">صحة</div>
+                <div class="logo-sub">Seha</div>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#">الاستعلامات</a></li>
+        </ul>
+    </div>
+
+    <!-- كرت الاستعلام الرئيسي -->
+    <div class="container">
+        <h1 class="main-title">الإجازات المرضية</h1>
+        <p class="description">خدمة الاستعلام عن الإجازات المرضية تتيح لك الاستعلام عن حالة طلبك للإجازة ويمكنك طباعتها عن طريق تطبيق صحتي</p>
+
+        <form id="inquiryForm">
+            <div class="form-group">
+                <input type="text" id="serviceCode" class="form-control" placeholder="رمز الخدمة (مثال: GSL32521258069)" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="nationalId" class="form-control" placeholder="رقم الهوية / الإقامة" required>
+            </div>
+            
+            <div class="buttons-group">
+                <button type="submit" class="btn-submit">استعلام</button>
+                <a href="#" class="btn-back">رجوع للاستعلامات</a>
+            </div>
+        </form>
+
+        <div id="resultBox" class="result-box">
+            <div class="result-row"><span class="label">الاسم:</span><span class="val" id="resName">-</span></div>
+            <div class="result-row"><span class="label">تاريخ إصدار التقرير:</span><span class="val" id="resIssueDate">-</span></div>
+            <div class="result-row"><span class="label">تبدأ من:</span><span class="val" id="resStartDate">-</span></div>
+            <div class="result-row"><span class="label">وحتى:</span><span class="val" id="resEndDate">-</span></div>
+            <div class="result-row"><span class="label">المدة بالأيام:</span><span class="val" id="resDuration">1</span></div>
+            <div class="result-row"><span class="label">اسم الطبيب:</span><span class="val" id="resDoctor">-</span></div>
+            <div class="result-row"><span class="label">المسمى الوظيفي:</span><span class="val" id="resTitle">استشاري</span></div>
+        </div>
+    </div>
+
+    <!-- الشريط السفلي -->
+    <div class="footer-bar">
+        <div class="accessibility-icon">&#9859;</div>
+    </div>
+
+    <script>
+        document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const serviceCode = document.getElementById('serviceCode').value.trim();
+            const nationalId = document.getElementById('nationalId').value.trim();
+
+            try {
+                const response = await fetch(`/api/verify?code=${serviceCode}&id=${nationalId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('resName').textContent = data.report.full_name;
+                    document.getElementById('resIssueDate').textContent = data.report.issue_date;
+                    document.getElementById('resStartDate').textContent = data.report.start_date;
+                    document.getElementById('resEndDate').textContent = data.report.end_date;
+                    document.getElementById('resDoctor').textContent = data.report.doctor_name;
+                    document.getElementById('resTitle').textContent = data.report.doctor_title || 'استشاري';
+                    document.getElementById('resultBox').style.display = 'block';
+                } else {
+                    alert('لم يتم العثور على التقرير، يرجى التأكد من البيانات.');
+                    document.getElementById('resultBox').style.display = 'none';
+                }
+            } catch (err) {
+                alert('حدث خطأ أثناء الاتصال بالخادم.');
+            }
+        });
+    </script>
+</body>
+</html>
