@@ -3,131 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - إضافة تقرير جديد</title>
+    <title>لوحة التحكم - إضافة إجازة مرضية</title>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f1f3f6; color: #333; display: flex; min-height: 100vh; direction: rtl; }
-        
-        /* الشريط الجانبي الداكن */
-        .sidebar { width: 220px; background-color: #1e2530; color: #fff; padding: 20px 0; flex-shrink: 0; }
-        .sidebar-title { font-size: 16px; font-weight: bold; padding: 0 20px 20px; border-bottom: 1px solid #2d3748; }
-        .sidebar-menu { list-style: none; margin-top: 15px; }
-        .sidebar-menu li { padding: 12px 20px; font-size: 13px; color: #cbd5e1; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .sidebar-menu li.active { background-color: #2b3544; color: #fff; font-weight: bold; border-right: 4px solid #3b82f6; }
-
-        /* منطقة المحتوى الرئيسية */
-        .main-content { flex: 1; padding: 30px; display: flex; justify-content: center; align-items: flex-start; }
-        
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); width: 100%; max-width: 600px; }
-        .card-header { margin-bottom: 20px; }
-        .card-title { font-size: 18px; font-weight: bold; color: #111827; }
-        .card-subtitle { font-size: 12px; color: #6b7280; margin-top: 4px; }
-
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .form-group { display: flex; flex-direction: column; }
-        .form-group.full { grid-column: span 2; }
-        
-        label { font-size: 11px; font-weight: bold; color: #6b7280; margin-bottom: 4px; }
-        input { padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 4px; font-size: 13px; color: #1f2937; outline: none; background-color: #fff; }
-        input:focus { border-color: #3b82f6; }
-
-        .actions { display: flex; gap: 10px; margin-top: 10px; grid-column: span 2; }
-        .btn-submit { background-color: #2563eb; color: white; border: none; padding: 9px 16px; border-radius: 4px; font-size: 13px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
-        .btn-back { background-color: #e5e7eb; color: #374151; text-decoration: none; padding: 9px 16px; border-radius: 4px; font-size: 13px; font-weight: bold; display: inline-block; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .btn-submit:hover {
+            background-color: #1d4ed8;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .alert-success { background-color: #d1fae5; color: #065f46; }
+        .alert-danger { background-color: #fee2e2; color: #991b1b; }
+        .logout-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #dc2626;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
 
-    <!-- القائمة الجانبية -->
-    <div class="sidebar">
-        <div class="sidebar-title">لوحة التحكم</div>
-        <ul class="sidebar-menu">
-            <li><span>&#x2302;</span> الرئيسية</li>
-            <li class="active"><span>&#x270F;</span> إضافة تقرير</li>
-        </ul>
-    </div>
+<div class="container">
+    <h2>إضافة إجازة مرضية جديدة</h2>
 
-    <!-- بطاقة النموذج -->
-    <div class="main-content">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">إضافة تقرير إجازة مرضية جديد</div>
-                <div class="card-subtitle">املأ النموذج أدناه لإصدار تقرير جديد.</div>
-            </div>
+    {% if msg %}
+        {% if 'نجاح' in msg %}
+            <div class="alert alert-success">{{ msg }}</div>
+        {% else %}
+            <div class="alert alert-danger">{{ msg }}</div>
+        {% endif %}
+    {% endif %}
 
-            <form id="addReportForm" class="form-grid">
-                <div class="form-group full">
-                    <label>رمز الخدمة (يجب أن يكون فريداً)</label>
-                    <input type="text" id="serviceCode" placeholder="GSL32521258069">
-                </div>
-                <div class="form-group">
-                    <label>رقم الهوية / الإقامة</label>
-                    <input type="text" id="nationalId" required>
-                </div>
-                <div class="form-group">
-                    <label>الاسم الكامل</label>
-                    <input type="text" id="fullName" required>
-                </div>
-                <div class="form-group">
-                    <label>تاريخ إصدار التقرير</label>
-                    <input type="date" id="issueDate" required>
-                </div>
-                <div class="form-group">
-                    <label>تاريخ بداية الإجازة</label>
-                    <input type="date" id="startDate" required>
-                </div>
-                <div class="form-group">
-                    <label>تاريخ نهاية الإجازة</label>
-                    <input type="date" id="endDate" required>
-                </div>
-                <div class="form-group">
-                    <label>اسم الطبيب</label>
-                    <input type="text" id="doctorName" value="سامي هليل الحربي">
-                </div>
-                <div class="form-group full">
-                    <label>المسمى الوظيفي للطبيب</label>
-                    <input type="text" id="doctorTitle" value="استشاري">
-                </div>
-
-                <div class="actions">
-                    <button type="submit" class="btn-submit">&#x1F4BE; حفظ التقرير</button>
-                    <a href="/" class="btn-back">العودة للرئيسية</a>
-                </div>
-            </form>
+    <form method="POST" action="/admin">
+        <div class="form-group">
+            <label>رمز الخدمة / رمز الإجازة (مثال: GSL32521258069)</label>
+            <input type="text" name="service_code" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label>رقم الهوية / الإقامة</label>
+            <input type="text" name="national_id" required>
+        </div>
+        <div class="form-group">
+            <label>الاسم بالعربي</label>
+            <input type="text" name="name_ar" required>
+        </div>
+        <div class="form-group">
+            <label>الاسم بالإنكليزي</label>
+            <input type="text" name="name_en">
+        </div>
+        <div class="form-group">
+            <label>مدة الإجازة (مثال: 1 يوم)</label>
+            <input type="text" name="duration" required>
+        </div>
+        <div class="form-group">
+            <label>تاريخ الدخول</label>
+            <input type="text" name="admission_date">
+        </div>
+        <div class="form-group">
+            <label>تاريخ الخروج</label>
+            <input type="text" name="discharge_date">
+        </div>
+        <div class="form-group">
+            <label>تاريخ الإصدار</label>
+            <input type="text" name="issue_date">
+        </div>
+        <div class="form-group">
+            <label>الجنسية</label>
+            <input type="text" name="nationality">
+        </div>
+        <div class="form-group">
+            <label>جهة العمل</label>
+            <input type="text" name="employer">
+        </div>
+        <div class="form-group">
+            <label>اسم الممارس الصحي</label>
+            <input type="text" name="practitioner_name">
+        </div>
+        <div class="form-group">
+            <label>المسمى الوظيفي</label>
+            <input type="text" name="position">
+        </div>
 
-    <script>
-        document.getElementById('addReportForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const reportData = {
-                service_code: document.getElementById('serviceCode').value.trim(),
-                national_id: document.getElementById('nationalId').value.trim(),
-                full_name: document.getElementById('fullName').value.trim(),
-                issue_date: document.getElementById('issueDate').value,
-                start_date: document.getElementById('startDate').value,
-                end_date: document.getElementById('endDate').value,
-                doctor_name: document.getElementById('doctorName').value.trim(),
-                doctor_title: document.getElementById('doctorTitle').value.trim()
-            };
+        <button type="submit" class="btn-submit">حفظ الإجازة المرضية</button>
+    </form>
 
-            try {
-                const response = await fetch('/api/reports/add', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(reportData)
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert('تم حفظ التقرير بنجاح!\nرمز الخدمة: ' + result.service_code);
-                    document.getElementById('addReportForm').reset();
-                } else {
-                    alert('حدث خطأ أثناء الحفظ.');
-                }
-            } catch (err) {
-                alert('فشل الاتصال بالخادم.');
-            }
-        });
-    </script>
+    <a href="/logout" class="logout-link">تسجيل الخروج</a>
+</div>
+
 </body>
 </html>
